@@ -44,8 +44,7 @@ export default {
         ...mapState(['loading', 'status', 'user']),
         ...mapGetters(['account']),
     },
-    created() {
-    },
+    created() {},
     mounted() {
 
         this[Actions.SET_LOADING](true);
@@ -65,6 +64,10 @@ export default {
                     status = appStatus.END_OF_GAME;
                 } else if (game && game.selected_card_ai > 0) {
                     status = appStatus.CARD_SELECTED;
+                } else if (game && game.deck_ai.length !== 17) {
+                    status = appStatus.STARTED;
+                } else if (name) {
+                    status = appStatus.PROFILE;
                 }
             }
 
@@ -92,7 +95,7 @@ export default {
     methods: {
         async fetchUserInfo(userName) {
             const user = await ApiService.getUserByName(userName);
-            console.log('App fetchUserInfo:' + JSON.stringify(user));
+            // console.log('App fetchUserInfo:' + JSON.stringify(user));
             this[Actions.SET_USER](user);
         },
 
@@ -101,7 +104,7 @@ export default {
             const res = await ApiService.loginEOS();
 
             if (res.error_code != 0) {
-                console.log('EVENT_SCATTER_READY got error!', JSON.stringify(res.message));
+                // console.log('EVENT_SCATTER_READY got error!', JSON.stringify(res.message));
                 return;
             }
 
@@ -117,7 +120,7 @@ export default {
 
             self[Actions.SET_LOADING](true);
             ApiService.loginGame().then((res) => {
-                console.log('---handleLogin---res:', res.error_code);
+                // console.log('---handleLogin---res:', res.error_code);
 
                 if (res.error_code === errCode.OK) {
                     bus.$emit(EVENT_STATUS_CHANGED, appStatus.PROFILE);

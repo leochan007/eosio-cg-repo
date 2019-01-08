@@ -1,5 +1,5 @@
 <template>
-  <modal classes="ModalContent" name="rules-modal" width="954px" height="650px">
+  <modal classes="ModalContent" name="rules-modal" width="954px" height="670px">
     <div class="RulesModal">
       <div class="title">Rules</div>
       <ul>

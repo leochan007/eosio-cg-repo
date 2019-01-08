@@ -23,9 +23,6 @@ export default {
         Card,
     },
     methods: {
-        generateCards(cards) {
-            console.log(cards);
-        },
     },
     name: 'HandCards',
 };

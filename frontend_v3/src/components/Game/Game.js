@@ -80,7 +80,7 @@ export default {
             self.setGameLoading(true);
 
             ApiService.startGame().then((res) => {
-                console.log('---handleStartGame---res:', res.error_code);
+                // console.log('---handleStartGame---res:', res.error_code);
 
                 if (res.error_code === errCode.OK) {
                     bus.$emit(EVENT_STATUS_CHANGED, appStatus.STARTED);
@@ -101,7 +101,7 @@ export default {
             self.setGameLoading(true);
 
             ApiService.playCard(cardIdx).then((res) => {
-                console.log('---handlePlayCard---res:', res.error_code);
+                // console.log('---handlePlayCard---res:', res.error_code);
 
                 if (res.error_code === errCode.OK) {
                     bus.$emit(EVENT_STATUS_CHANGED, appStatus.STARTED);
@@ -124,7 +124,7 @@ export default {
             self.setGameLoading(true);
 
             ApiService.nextRound().then((res) => {
-                console.log('---handleNextRound---res:', res.error_code);
+                // console.log('---handleNextRound---res:', res.error_code);
 
                 if (res.error_code === errCode.OK) {
                     bus.$emit(EVENT_STATUS_CHANGED, appStatus.STARTED);
@@ -148,10 +148,10 @@ export default {
                 }
             }
 
-            console.log('handleEndGame isForce:', isForce);
+            // console.log('handleEndGame isForce:', isForce);
 
             ApiService.endGame(isForce).then((res) => {
-                console.log('---handleEndGame---res:', res.error_code);
+                // console.log('---handleEndGame---res:', res.error_code);
 
                 if (res.error_code === errCode.OK) {
                     bus.$emit(EVENT_STATUS_CHANGED, appStatus.END_OF_GAME);

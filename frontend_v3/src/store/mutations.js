@@ -22,7 +22,7 @@ export default {
         window.localStorage.account = JSON.stringify(account);
       }
     } catch(e) {
-      console.log(e);
+      // console.log(e);
     }
   },
 

@@ -45,7 +45,7 @@ class ApiService {
 
   static async loginEOS() {
 
-    console.log('loginEOS options-->' + JSON.stringify(options));
+    // console.log('loginEOS options-->' + JSON.stringify(options));
 
     const res = await helper.login();
     if (res.error_code != 0) {
@@ -71,12 +71,12 @@ class ApiService {
 
     let account = store.getters.account;
 
-    console.log('loginGame account:', JSON.stringify(account));
+    // console.log('loginGame account:', JSON.stringify(account));
 
     const res = await ApiService.safeTakeAction("login", { userName: account.name });
 
     if (res.error_code != 0) {
-        console.log(res.message);
+        // console.log(res.message);
         return res;
     }
 

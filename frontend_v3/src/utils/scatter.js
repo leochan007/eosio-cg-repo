@@ -23,8 +23,7 @@ function init() {
     ScatterJS.scatter.connect("demo", connectionOptions).then(connected => {
     
         if(!connected) return false;
-
-        console.log('ScatterJS init!!!!!!!!!!!!!!!!');
+        
         scatter = ScatterJS.scatter;
         
         const eosOptions = {};

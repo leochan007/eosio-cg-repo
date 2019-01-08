@@ -18,7 +18,6 @@ async function login() {
 
         return { error_code: errCode.OK, message: identity };
     } catch (error) {
-        console.log(error);
         return { error_code: errCode.FAILED, message: error };
     }
 }
@@ -32,7 +31,6 @@ async function logout() {
         let identity = await scatter.forgetIdentity();
         return { error_code: errCode.OK, message: identity };
     } catch (error) {
-        console.log(error);
         return { error_code: errCode.FAILED, message: error };
     }
 }
@@ -56,9 +54,6 @@ async function takeAction(name, authority, action, dataValue) {
         return { error_code: errCode.FAILED, message: 'not ready! scatter == null' };
     }
 
-    //const options = {};
-    //const eos = scatter.eos(network, Eos, options);
-
     try {
         const resultWithConfig = await eos.transaction({
             actions: [{
@@ -77,8 +72,6 @@ async function takeAction(name, authority, action, dataValue) {
 
         return { error_code: errCode.OK, message: resultWithConfig };
     } catch (err) {
-        console.log('action ' + action + ' got error!');
-        console.log(err);
         return { error_code: errCode.ACTION_FAILED, message: err };
     }
 }
