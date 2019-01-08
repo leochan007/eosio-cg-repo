@@ -1,0 +1,93 @@
+$lifelst: (100%, 52%, 40%, 28%, 15%, 0);
+
+.PlayerInfo {
+  position: absolute;
+  left: 103px;
+  margin: 0 20px;
+  padding: 6px 0;
+  width: 266px;
+  height: 131px;
+  background-size: 100%;
+  color: #fff;
+
+  .name {
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+  
+  .name,
+  .lifepoints {
+    position: absolute;
+    left: 110px;
+  }
+  
+  .life {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 191px;
+    height: 83.5px;
+    background-size: 100%;
+    
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background-position: top right;
+      background-size: auto 100%;
+    }
+
+    @for $i from 0 to length($lifelst) {
+      &.life#{$i}:before {
+        width: nth($lifelst, $i+1);
+      }
+    }
+  }
+  
+  &.ai {
+    top: 42px;
+    background-image: url("./images/CPU_component_frame.png");
+    
+    .name {
+      top: 53px;
+    }
+    .lifepoints {
+      top: 90px;
+    }
+    .life {
+      top: 36px;
+      background-image: url("./images/CPU_component_full.png");
+      
+      &:before {
+        background-image: url("./images/CPU_component_empty.png");
+      }
+    }
+  }
+
+  &.player {
+    bottom: 40px;
+    background-image: url("./images/Player_component_frame.png");
+    
+    .name {
+      top: 23px;
+    }
+
+    .lifepoints {
+      top: 62px;
+    }
+    
+    .life {
+      top: 8px;
+      background-image: url("./images/Player_component_full.png");
+
+      &:before {
+        background-image: url("./images/Player_component_empty.png");
+      }
+    }
+    
+  }
+}

@@ -1,0 +1,73 @@
+.GameMat {
+  width: 100%;
+  height: 100%;
+  background: url("./images/Game_board_wCards.png") no-repeat;
+  background-size: 100%;
+  border-collapse: collapse;
+
+  .deck {
+    position: absolute;
+    left: 173px;
+    padding: 65px 10px;
+    width: 162px;
+    height: 192px;
+    line-height: 1em;
+    text-transform: uppercase;
+    background-size: 100%;
+    color: transparent;
+
+    &.ai {
+      top: 185px;
+      bottom: auto;
+      background-image: url("./images/CPU_4card.png");
+
+      &.remain10,
+      &.remain9,
+      &.remain8 {
+        background-image: url("./images/CPU_3card.png");
+      }
+
+      &.remain7,
+      &.remain6,
+      &.remain5 {
+        background-image: url("./images/CPU_2card.png");
+      }
+
+      &.remain4,
+      &.remain3,
+      &.remain2,
+      &.remain1 {
+        background-image: url("./images/CPU_1card.png");
+      }
+    }
+
+    &.player {
+      top: auto;
+      bottom: 185px;
+      background-image: url("./images/Player_4card.png");
+
+      &.remain10,
+      &.remain9,
+      &.remain8 {
+        background-image: url("./images/Player_3card.png");
+      }
+
+      &.remain7,
+      &.remain6,
+      &.remain5 {
+        background-image: url("./images/Player_2card.png");
+      }
+
+      &.remain4,
+      &.remain3,
+      &.remain2,
+      &.remain1 {
+        background-image: url("./images/Player_1card.png");
+      }
+    }
+
+    &.remain0 {
+      background-image: none;
+    }
+  }
+}

@@ -26,4 +26,4 @@ sudo apt-get install -y --allow-downgrades docker-ce=17.03.2~ce-0~ubuntu-xenial
 #sudo groupadd docker
 sudo gpasswd -a vagrant docker
 sudo service docker restart
-#newgrp - docker
+newgrp docker
