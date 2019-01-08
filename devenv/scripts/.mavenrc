@@ -1,0 +1,1 @@
+MAVEN_OPTS="-Xmx512m maven.wagon.http.ssl.insecure=true"

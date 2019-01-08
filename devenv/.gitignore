@@ -1,0 +1,11 @@
+*.log
+*.vagrant
+*.tar.gz
+maven
+apache*
+git_log
+get-pip.py
+*.pem
+
+nexus-3.14*
+sonatype-work
