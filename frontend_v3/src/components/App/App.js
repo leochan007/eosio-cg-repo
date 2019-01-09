@@ -42,7 +42,7 @@ export default {
                 voca.isBlank(this.account.name) || voca.isBlank(this.user);
         },
         ...mapState(['loading', 'status', 'user']),
-        ...mapGetters(['account']),
+        ...mapGetters(['debug', 'account']),
     },
     created() {},
     mounted() {
@@ -95,7 +95,9 @@ export default {
     methods: {
         async fetchUserInfo(userName) {
             const user = await ApiService.getUserByName(userName);
-            // console.log('App fetchUserInfo:' + JSON.stringify(user));
+            if (this.debug) {
+                console.debug('App fetchUserInfo:' + JSON.stringify(user));
+            }
             this[Actions.SET_USER](user);
         },
 

@@ -1,5 +1,7 @@
 import voca from 'voca';
 
+const debug = process.env.NODE_ENV !== 'production';
+
 export default {
 
   scatter: state => {
@@ -38,6 +40,10 @@ export default {
 
   network: state => {
     return state.network;
+  },
+
+  debug: () => {
+    return debug;
   },
 
 };

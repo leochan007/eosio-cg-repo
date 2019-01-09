@@ -12,11 +12,11 @@
       <GameMat 
           :deckCardCount="game.deck_ai.length" 
           :aiLife="game.life_ai" 
-          :aiHandCards="game.hand_ai" 
+          :aiHandCards="game.hand_ai"
           aiName="COMPUTER" 
           :playerLife="game.life_player"
           :playerHandCards="game.hand_player"
-          :playerName="name" 
+          :playerName="name"
           :onPlayCard="handlePlayCard" />
       <Resolution
           :status="game.status"
