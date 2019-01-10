@@ -1,43 +1,126 @@
 @font-face {
-  font-family: 'Almendra';
-  src: url("./fonts/almendra-regular-webfont.woff") format("woff2"), url("./fonts/almendra-regular-webfont.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'Almendra';
+    src: url("./fonts/almendra-regular-webfont.woff") format("woff2"), url("./fonts/almendra-regular-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'Almendra Bold';
-  src: url("./fonts/almendra-bold-webfont.woff2") format("woff2"), url("./fonts/almendra-bold-webfont.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'Almendra Bold';
+    src: url("./fonts/almendra-bold-webfont.woff2") format("woff2"), url("./fonts/almendra-bold-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
 }
 
 body {
-  font-family: 'Almendra Bold';
-  font-size: 14px;
-  letter-spacing: 2px;
-  user-select: none;
-  overflow: hidden;
+    font-family: 'Almendra Bold';
+    font-size: 14px;
+    letter-spacing: 2px;
+    user-select: none;
+    overflow: hidden;
 }
 
-.App {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  justify-content: center;
-  background-image: url("./images/Game_background.jpg");
-  background-size: cover;
+@keyframes dim {
+    from {
+        opacity: 0;
+    }
 
-  &.loading {
-    opacity: 0;
-  }
-  
-  &.status-login {
-    background-image: url("./images/Game_Login_background.jpg");
-  }
-  
-  &.status-profile {
-    background-image: url("./images/Game_Profile_background.jpg");
-  }
-  
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+$transformlst: (0deg, 70deg, 120deg);
+
+.App {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url("./images/Game_background.jpg");
+    background-size: cover;
+
+    &.loading {
+        opacity: 0;
+    }
+
+    &.status-login {
+        background-image: url("./images/Game_Login_background.jpg");
+    }
+
+    &.status-profile {
+        background-image: url("./images/Game_Profile_background.jpg");
+    }
+
+    .spinner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        animation: dim 1s normal forwards ease .5s;
+
+        .image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -49px;
+            margin-left: -49px;
+            width: 98px;
+            height: 98px;
+            background: url("./images/logo_loading.png");
+            background-size: 100%;
+        }
+
+        .circles {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -51px;
+            width: 100px;
+            height: 102px;
+            animation: spin 1s infinite linear;
+        }
+
+        .circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+            .inner {
+                width: 100%;
+                height: 100%;
+                border-radius: 100%;
+                border: 3px solid rgba(255, 201, 79, 0.3);
+                border-right: none;
+                border-top: none;
+                background-clip: padding;
+                box-shadow: inset 0px 0px 10px rgba(255, 255, 134, 0.17);
+            }
+
+            @for $i from 0 to length($transformlst) {
+                &:nth-of-type(#{$i}) .inner {
+                    animation: spin 1s infinite linear;
+                }
+
+                &:nth-of-type(#{$i}) {
+                    transform: rotate($transformlst($i + 1));
+                }
+            }
+        }
+    }
+
 }

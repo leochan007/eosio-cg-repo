@@ -28,7 +28,6 @@ export default {
     },
     data() {
         return {
-            loading: false,
         }
     },
     computed: {
@@ -71,7 +70,7 @@ export default {
     methods: {
 
         setGameLoading(loading) {
-            this.loading = loading;
+            this[Actions.SET_LOADING](loading);
         },
 
         handleStartGame() {

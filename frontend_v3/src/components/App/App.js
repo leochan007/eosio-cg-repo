@@ -36,7 +36,8 @@ export default {
     },
     computed: {
         className() {
-            return 'App status-' + this.status + (this.loading ? ' loading' : '');
+            //return 'App status-' + this.status + (this.loading ? ' loading' : '');
+            return 'App status-' + this.status;
         },
         needLogin() {
             return this.status == appStatus.LOGIN || voca.isBlank(this.account) ||

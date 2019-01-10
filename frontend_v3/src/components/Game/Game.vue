@@ -35,26 +35,6 @@
           :onEndGame="handleEndGame"
         />
     </div>
-    <div v-if="isGameStarted && loading" class="spinner">
-      <div class="image"></div>
-      <div class="circles">
-        <div class="circle">
-          <div class="inner"></div>
-        </div>
-        <div class="circle">
-          <div class="inner"></div>
-        </div>
-        <div class="circle">
-          <div class="inner"></div>
-        </div>
-        <div class="circle">
-          <div class="inner"></div>
-        </div>
-        <div class="circle">
-          <div class="inner"></div>
-        </div>
-      </div>
-    </div>
   </section>
 </template>
 
