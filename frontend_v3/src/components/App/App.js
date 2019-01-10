@@ -23,7 +23,7 @@ import {
     bus,
     EVENT_STATUS_CHANGED,
     EVENT_SCATTER_READY,
-    EVENT_SCATTER_FAILED,
+    EVENT_SCATTER_CONNECTION_FAILED,
 } from '@/utils/event';
 
 import ApiService from '@/services/ApiService';
@@ -53,14 +53,14 @@ export default {
 
         const self = this;
 
-        bus.$on(EVENT_SCATTER_FAILED, async (err) => {
-            console.log(err);
+        bus.$on(EVENT_SCATTER_CONNECTION_FAILED, async () => {
+            self[Actions.SET_ERROR](errCode.ERROR_SCATTER_CONNECTION_FAILED);
+            self[Actions.SET_LOADING](false);
         });
 
         bus.$on(EVENT_SCATTER_READY, async () => {
 
             const res = await self.loginEOS();
-
             console.log(res);
 
             if (res.error_code == errCode.OK) {
@@ -86,11 +86,11 @@ export default {
         })
 
         bus.$on(EVENT_STATUS_CHANGED, async (newStatus) => {
-    
+
             let status = newStatus;
 
             if (!voca.isBlank(self.account)) {
-            
+
                 await self.fetchUserInfo(self.account.name);
                 if (!voca.isBlank(self.user) && !voca.isBlank(self.user.game_data)) {
                     const game = self.user.game_data;

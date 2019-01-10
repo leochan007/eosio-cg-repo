@@ -7,7 +7,8 @@ import Eos from 'eosjs';
 import {
     bus,
     EVENT_SCATTER_READY,
-    EVENT_SCATTER_FAILED
+    EVENT_SCATTER_CONNECTION_FAILED,
+    EVENT_SCATTER_ERROR,
 } from '@/utils/event';
 
 import store from '@/store';
@@ -28,7 +29,10 @@ function initScatter() {
 
     ScatterJS.scatter.connect("demo", connectionOptions).then(connected => {
 
-        if (!connected) return false;
+        if (!connected) {
+            bus.$emit(EVENT_SCATTER_CONNECTION_FAILED, {});
+            return false;
+        }
 
         scatter = ScatterJS.scatter;
 
@@ -39,8 +43,8 @@ function initScatter() {
 
         bus.$emit(EVENT_SCATTER_READY, {});
 
-    }).then(err => {
-        bus.$emit(EVENT_SCATTER_FAILED, err);
+    }).catch(err => {
+        bus.$emit(EVENT_SCATTER_ERROR, err);
     });
 }
 
