@@ -8,6 +8,7 @@ export default () => ({
     type: String,
     default: appStatus.LOGIN
   },
+  error: '',
   loading: {
     type: Boolean,
     default: false

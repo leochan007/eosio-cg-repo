@@ -10,6 +10,8 @@ export default {
 
   [Actions.SET_STATUS]:({commit}, status) => commit(Actions.SET_STATUS, status),
 
+  [Actions.SET_ERROR]:({commit}, error) => commit(Actions.SET_ERROR, error),
+
   [Actions.SET_LOADING]:({commit}, loading) => commit(Actions.SET_LOADING, loading),
 
   [Actions.SET_ACCOUNT]:({commit}, account) => commit(Actions.SET_ACCOUNT, account),
@@ -17,7 +19,7 @@ export default {
   //async actions
   setScatterAsync({ commit }, scatter, timeout) {
     setTimeout(() => {
-      commit('setScatter', scatter);
+      commit(Actions.SET_SCATTER, scatter);
     }, timeout);
   },
 };

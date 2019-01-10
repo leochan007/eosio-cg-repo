@@ -4,7 +4,7 @@ import Game from '@/components/Game/Game.vue';
 import RulesModal from '@/components/Game/components/GameInfo/components/RulesModal/RulesModal.vue';
 
 import {
-    init,
+    initScatter,
 } from '@/utils/scatter';
 
 import {
@@ -23,6 +23,7 @@ import {
     bus,
     EVENT_STATUS_CHANGED,
     EVENT_SCATTER_READY,
+    EVENT_SCATTER_FAILED,
 } from '@/utils/event';
 
 import ApiService from '@/services/ApiService';
@@ -41,45 +42,87 @@ export default {
             return this.status == appStatus.LOGIN || voca.isBlank(this.account) ||
                 voca.isBlank(this.account.name) || voca.isBlank(this.user);
         },
-        ...mapState(['loading', 'status', 'user']),
-        ...mapGetters(['debug', 'account']),
+        ...mapState(['loading', 'user']),
+        ...mapGetters(['debug', 'status', 'account']),
     },
-    created() {},
+    created() {
+        this[Actions.SET_STATUS](appStatus.LOGIN);
+        this[Actions.SET_LOADING](false);
+    },
     mounted() {
 
-        this[Actions.SET_LOADING](true);
+        const self = this;
+
+        bus.$on(EVENT_SCATTER_FAILED, async (err) => {
+            console.log(err);
+        });
 
         bus.$on(EVENT_SCATTER_READY, async () => {
-            await this.loginEOS();
+
+            const res = await self.loginEOS();
+
+            console.log(res);
+
+            if (res.error_code == errCode.OK) {
+
+                ApiService.loginGame().then((res) => {
+                    // console.log('---handleLogin---res:', res.error_code);
+
+                    if (res.error_code === errCode.OK) {
+                        bus.$emit(EVENT_STATUS_CHANGED, appStatus.PROFILE);
+                    } else {
+                        self[Actions.SET_LOADING](false);
+                        self[Actions.SET_ERROR](res.message);
+                    }
+                }).catch((err) => {
+                    self[Actions.SET_LOADING](false);
+                    self[Actions.SET_ERROR](err);
+                });
+
+            } else {
+                self[Actions.SET_LOADING](false);
+                self[Actions.SET_ERROR](res.message);
+            }
         })
 
         bus.$on(EVENT_STATUS_CHANGED, async (newStatus) => {
-
-            await this.fetchUserInfo(this.account.name);
-
+    
             let status = newStatus;
-            if (!voca.isBlank(this.user) && !voca.isBlank(this.user.game_data)) {
-                const game = this.user.game_data;
-                if (game && game.status !== 0) {
-                    status = appStatus.END_OF_GAME;
-                } else if (game && game.selected_card_ai > 0) {
-                    status = appStatus.CARD_SELECTED;
-                } else if (game && game.deck_ai.length !== 17) {
-                    status = appStatus.STARTED;
-                } else if (name) {
-                    status = appStatus.PROFILE;
+
+            if (!voca.isBlank(self.account)) {
+            
+                await self.fetchUserInfo(self.account.name);
+                if (!voca.isBlank(self.user) && !voca.isBlank(self.user.game_data)) {
+                    const game = self.user.game_data;
+                    if (game && game.status !== 0) {
+                        status = appStatus.END_OF_GAME;
+                    } else if (game && game.selected_card_ai > 0) {
+                        status = appStatus.CARD_SELECTED;
+                    } else if (game && game.deck_ai.length !== 17) {
+                        status = appStatus.STARTED;
+                    } else if (name) {
+                        status = appStatus.PROFILE;
+                    }
                 }
+
+            } else {
+                status = appStatus.LOGIN;
             }
 
-            this[Actions.SET_STATUS](status);
+            self[Actions.SET_STATUS](status);
 
             switch (appStatus) {
                 case appStatus.PROFILE:
                 case appStatus.STARTED:
                 case appStatus.CARD_SELECTED:
                 case appStatus.END_OF_GAME:
+                    {
+                        break;
+                    }
                 case appStatus.LOGIN:
                     {
+                        self[Actions.SET_USER](null);
+                        self[Actions.SET_ACCOUNT](null);
                         break;
                     }
                 default:
@@ -88,8 +131,6 @@ export default {
 
             this[Actions.SET_LOADING](false);
         })
-
-        init();
 
     },
     methods: {
@@ -104,32 +145,21 @@ export default {
         async loginEOS() {
 
             const res = await ApiService.loginEOS();
+            console.log('loginEOS', res);
 
-            if (res.error_code != 0) {
-                // console.log('EVENT_SCATTER_READY got error!', JSON.stringify(res.message));
-                return;
+            if (res.error_code == errCode.OK) {
+                this[Actions.SET_ACCOUNT](res.message);
             }
 
-            this[Actions.SET_ACCOUNT](res.message);
-
-            bus.$emit(EVENT_STATUS_CHANGED, appStatus.LOGIN);
+            return res;
 
         },
 
         handleLogin() {
 
-            const self = this;
+            this[Actions.SET_LOADING](true);
 
-            self[Actions.SET_LOADING](true);
-            ApiService.loginGame().then((res) => {
-                // console.log('---handleLogin---res:', res.error_code);
-
-                if (res.error_code === errCode.OK) {
-                    bus.$emit(EVENT_STATUS_CHANGED, appStatus.PROFILE);
-                }
-            }).catch(() => {
-                self[Actions.SET_LOADING](false);
-            });
+            initScatter();
         },
 
         handleLogout() {
@@ -139,18 +169,15 @@ export default {
             self[Actions.SET_LOADING](true);
 
             ApiService.logoutGame().then(() => {
-                self.loginEOS().then(() => {
-                    this[Actions.SET_LOADING](false);
-                }).catch(() => {
-                    this[Actions.SET_LOADING](false);
-                })
+                bus.$emit(EVENT_STATUS_CHANGED, appStatus.LOGIN);
             }).catch(() => {
-                this[Actions.SET_LOADING](false);
+                self[Actions.SET_LOADING](false);
             });
         },
         ...mapActions([
             Actions.SET_LOADING,
             Actions.SET_STATUS,
+            Actions.SET_ERROR,
             Actions.SET_USER,
             Actions.SET_ACCOUNT,
         ])
