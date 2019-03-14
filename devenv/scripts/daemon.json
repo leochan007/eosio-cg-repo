@@ -1,6 +1,0 @@
-{
-    "insecure-registries": [
-      "127.0.0.1:8085"
-    ],
-    "disable-legacy-registry": true
-}

@@ -3,12 +3,11 @@ kind: Deployment
 metadata:
   annotations:
     field.cattle.io/creatorId: ""
-    field.cattle.io/publicEndpoints: '[{"port":31000,"protocol":"TCP","serviceName":"default:cg-dapp-stg-nodeport","allNodes":true}]'
+    field.cattle.io/publicEndpoints: '[{"port":31099,"protocol":"TCP","serviceName":"default:cg-dapp-stg-nodeport","allNodes":true}]'
   labels:
-    cattle.io/creator: norman
     workload.user.cattle.io/workloadselector: deployment-default-cg-dapp-stg
   name: cg-dapp-stg
-  namespace: default
+  namespace: cg-dapp
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -24,7 +23,7 @@ spec:
   template:
     metadata:
       annotations:
-        field.cattle.io/ports: '[[{"containerPort":80,"dnsName":"cg-dapp-stg-nodeport","kind":"NodePort","name":"80tcp310001","protocol":"TCP","sourcePort":31000}]]'
+        field.cattle.io/ports: '[[{"containerPort":80,"dnsName":"cg-dapp-stg-nodeport","kind":"NodePort","name":"80tcp310991","protocol":"TCP","sourcePort":31099}]]'
       labels:
         workload.user.cattle.io/workloadselector: deployment-default-cg-dapp-stg
     spec:
@@ -34,14 +33,13 @@ spec:
         name: cg-dapp-stg
         ports:
         - containerPort: 80
-          name: 80tcp310001
+          name: 80tcp310991
           protocol: TCP
         resources: {}
         securityContext:
           allowPrivilegeEscalation: false
           capabilities: {}
           privileged: false
-          procMount: Default
           readOnlyRootFilesystem: false
           runAsNonRoot: false
         stdin: true
