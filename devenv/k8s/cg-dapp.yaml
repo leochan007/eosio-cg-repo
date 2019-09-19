@@ -28,7 +28,7 @@ spec:
         workload.user.cattle.io/workloadselector: deployment-default-cg-dapp
     spec:
       containers:
-      - image: repo.alphacario.com:8089/cg-dapp:v1
+      - image: repo.luomutrip.com:8089/cg-dapp:v1
         imagePullPolicy: Always
         name: cg-dapp
         ports:

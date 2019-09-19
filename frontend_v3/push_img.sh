@@ -8,11 +8,11 @@ if [ -n "$1" ]; then
   FLAG=$1
 fi
 
-if [ "testnet" != "$FLAG" ]; then
+if [ "testnet_stg" != "$FLAG" ]; then
   img_name=$img_name-stg
 fi
 
 VER=`git rev-parse HEAD`
 echo 'VER:'$VER
 
-docker push repo.alphacario.com:8089/$img_name:v1
+docker push $PREFIX/$img_name:v1

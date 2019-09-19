@@ -14,7 +14,7 @@ echo 'VER:'$VER
 
 rm -rf dist && yarn && TESTNET=$FLAG yarn run build
 
-if [ "testnet" != "$FLAG" ]; then
+if [ "testnet_stg" != "$FLAG" ]; then
   img_name=$img_name-stg
 fi
 
