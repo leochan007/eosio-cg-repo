@@ -10,6 +10,8 @@ chmod a+x *.sh
 
 cd ../devenv/k8s
 
+chmod a+x *.sh
+
 ./update_k8s.sh
 
 #kubectl --kubeconfig=/root/k8s_config/luomu-test.yaml --ignore-not-found=true delete -f cg-dapp-stg.yaml

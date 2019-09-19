@@ -10,7 +10,7 @@ K8S_OPT2=' --ignore-not-found=true '
 CMD_PATH=`dirname $0`
 cd $CMD_PATH
 
-prj_name=cp-dapp
+prj_name=cg-dapp-stg
 
-kubectl ${K8S_OPT1} delete ${K8S_OPT2} -f ${prj_name}-stg.yaml
-kubectl ${K8S_OPT1} apply -f ${prj_name}-stg.yaml
+kubectl ${K8S_OPT1} delete ${K8S_OPT2} -f ${prj_name}.yaml
+kubectl ${K8S_OPT1} apply -f ${prj_name}.yaml
